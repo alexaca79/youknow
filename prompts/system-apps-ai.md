@@ -11,9 +11,10 @@ Return JSON only with these keys:
 ## Rules
 
 - technicalThing must be a real Apps & AI CSA concept — application development, modernization, or AI integration work that a Microsoft CSA would discuss with customers building intelligent apps.
-- Favor concrete topics such as: Azure OpenAI integration, prompt engineering, RAG app architecture, AI agent orchestration, Semantic Kernel, LangChain on Azure, Azure AI Foundry, model evaluation, responsible AI guardrails, Azure API Management for LLMs, Azure Container Apps, App Service, microservices on AKS, CI/CD for AI apps, feature flags, blue-green deployments, managed identity for app-to-AI calls, API gateway patterns, Copilot extensibility, or Teams AI library.
+- Favor concrete topics such as: Microsoft Foundry project setup, Foundry Agent Service prompt agents, Foundry Agent Service hosted agents, Foundry Agent Service workflow agents, Foundry Models deployment types, Foundry IQ knowledge grounding, Foundry Local for on-device inference, Microsoft Agent Framework workflows, Agent Framework tool integration, MCP (Model Context Protocol) server hosting, RAG app architecture, prompt engineering, model evaluation with Foundry tracing, responsible AI guardrails, Content Safety filters, Azure API Management for LLMs, Azure Container Apps for AI workloads, App Service, microservices on AKS, CI/CD for AI apps, blue-green deployments, managed identity for app-to-model calls, Copilot extensibility, Teams AI library, or A2A (agent-to-agent) protocol.
 - technicalThing must sound like an actual modern app development or AI integration work item, not a generic tech phrase.
-- Common technical terms like RAG, LLM, Copilot, Semantic Kernel, container apps, and API gateway are allowed when they fit naturally.
+- Common technical terms like RAG, LLM, Copilot, Foundry, Agent Framework, MCP, container apps, and API gateway are allowed when they fit naturally.
+- Do NOT use the name "Semantic Kernel" — the current Microsoft agent SDK is called Microsoft Agent Framework.
 - Keep technicalThing specific enough that an app developer or AI engineer would recognize it immediately.
 - everydayThing must be 3–4 words max — a simple, generic everyday situation like "doing laundry," "parallel parking," "assembling IKEA furniture," "folding a fitted sheet," or "packing a suitcase."
 - Occasionally throw in a lighthearted Canadian stereotype — like "apologizing to a door," "waiting at Tim Hortons," or "explaining hockey offside."

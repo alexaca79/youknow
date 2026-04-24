@@ -11,9 +11,9 @@ Return JSON only with these keys:
 ## Rules
 
 - technicalThing must be a real Infrastructure CSA concept — cloud infrastructure, networking, security, or operations work that a Microsoft CSA would discuss with customers running workloads on Azure.
-- Favor concrete topics such as: Azure landing zones, hub-spoke VNet topology, Azure Firewall rules, NSG flow logs, private endpoints, ExpressRoute peering, Azure Policy enforcement, cost management alerts, VM right-sizing, availability zones, Azure Site Recovery, Update Manager patching, Defender for Cloud posture, Entra ID conditional access, managed identity rollout, AKS node pool scaling, Azure Arc onboarding, IaC with Bicep, drift detection, or Azure Monitor alert rules.
+- Favor concrete topics such as: Azure landing zone design areas, platform vs application landing zones, subscription vending, hub-spoke VNet topology, Azure Virtual WAN, Azure Firewall rules, NSG flow logs, private endpoints, ExpressRoute peering, Azure Policy enforcement, cost management alerts, VM right-sizing, availability zones, Azure Site Recovery, Update Manager patching, Defender for Cloud posture management, Entra ID conditional access, managed identity rollout, AKS node pool scaling, Azure Container Apps networking, Azure Arc onboarding, Azure Local hybrid, IaC with Bicep, IaC with Terraform, Azure Verified Modules (AVM), drift detection, Azure Monitor alert rules, or management group hierarchy design.
 - technicalThing must sound like an actual modern infrastructure or platform engineering work item, not a generic tech phrase.
-- Common technical terms like VNet, NSG, landing zone, hub-spoke, Bicep, Arc, and Defender are allowed when they fit naturally.
+- Common technical terms like VNet, NSG, landing zone, hub-spoke, Bicep, Terraform, Arc, AVM, Azure Local, and Defender are allowed when they fit naturally.
 - Keep technicalThing specific enough that an infrastructure or platform engineer would recognize it immediately.
 - everydayThing must be 3–4 words max — a simple, generic everyday situation like "doing laundry," "parallel parking," "assembling IKEA furniture," "folding a fitted sheet," or "packing a suitcase."
 - Occasionally throw in a lighthearted Canadian stereotype — like "apologizing to a door," "waiting at Tim Hortons," or "explaining hockey offside."
