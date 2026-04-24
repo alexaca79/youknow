@@ -7,6 +7,16 @@ const INITIAL_HEALTH = {
   speechConfigured: false,
   model: '',
 };
+const SPECIALTIES = [
+  { value: 'data-ai', label: 'Data & AI (Fabric / Databricks)' },
+  { value: 'apps-ai', label: 'Apps & AI' },
+  { value: 'infra', label: 'Infrastructure' },
+];
+const DIFFICULTIES = [
+  { value: 'normal', label: 'Normal' },
+  { value: 'hard', label: 'Hard' },
+  { value: 'non-sequitur', label: 'Non Sequitur' },
+];
 
 function apiUrl(path) {
   return API_BASE_URL ? `${API_BASE_URL}${path}` : path;
@@ -17,6 +27,9 @@ function App() {
   const [history, setHistory] = useState([]);
   const [loadingPrompt, setLoadingPrompt] = useState(false);
   const [speakingPrompt, setSpeakingPrompt] = useState(false);
+  const [specialty, setSpecialty] = useState('data-ai');
+  const [difficulty, setDifficulty] = useState('normal');
+  const [hintOpen, setHintOpen] = useState(false);
   const [error, setError] = useState('');
   const [health, setHealth] = useState(INITIAL_HEALTH);
   const audioRef = useRef(null);
@@ -115,11 +128,11 @@ function App() {
     try {
       const response = await fetch(apiUrl('/api/prompts'), {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           recent_prompts: history.slice(-12).map((entry) => entry.fullPrompt || ''),
+          specialty,
+          difficulty,
         }),
       });
 
@@ -178,6 +191,24 @@ function App() {
             <div className="panel-header">
               <div>
                 <p className="eyebrow">Prompt Stage</p>
+                <select
+                  className="specialty-select"
+                  value={specialty}
+                  onChange={(e) => setSpecialty(e.target.value)}
+                >
+                  {SPECIALTIES.map((s) => (
+                    <option key={s.value} value={s.value}>{s.label}</option>
+                  ))}
+                </select>
+                <select
+                  className="specialty-select"
+                  value={difficulty}
+                  onChange={(e) => setDifficulty(e.target.value)}
+                >
+                  {DIFFICULTIES.map((d) => (
+                    <option key={d.value} value={d.value}>{d.label}</option>
+                  ))}
+                </select>
               </div>
               <div className="header-buttons">
                 <button className="primary-button" onClick={generatePrompt} disabled={loadingPrompt}>
@@ -205,9 +236,16 @@ function App() {
               </div>
             </div>
 
-            <div className="prompt-output">
-              <p className="full-prompt">{prompt?.fullPrompt || 'Generate a pair to start the round.'}</p>
-              <p className="hint-line">{prompt?.rationaleHint || 'The app will also give a one-line angle to help the player frame the analogy.'}</p>
+            <div className="prompt-actions-bar">
+              <p className="explain-instruction">
+                {prompt ? 'Now explain WHY these two things are alike — that\'s the whole game!' : ''}
+              </p>
+              {prompt?.rationaleHint ? (
+                <details className="hint-drawer" open={hintOpen || undefined} onToggle={(e) => setHintOpen(e.target.open)}>
+                  <summary className="hint-toggle">Hint</summary>
+                  <p className="hint-content">{prompt.rationaleHint}</p>
+                </details>
+              ) : null}
             </div>
 
             {error ? <p className="error-banner">{error}</p> : null}

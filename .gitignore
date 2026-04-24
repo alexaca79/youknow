@@ -10,3 +10,5 @@ frontend/dist/
 .DS_Store
 Thumbs.db
 *.swp
+~$*
+deck/you-know-game.pptx

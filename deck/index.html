@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>You Know ____ Is a Lot Like ____</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css" />
+  <style>
+    :root {
+      --accent: #50e6ff;
+      --accent2: #ff8c00;
+      --bg-dark: #0a0a1a;
+    }
+    .reveal { font-family: 'Segoe UI', system-ui, sans-serif; }
+    .reveal .slides { text-align: left; }
+    .reveal h1, .reveal h2, .reveal h3 { color: var(--accent); font-weight: 700; text-transform: none; }
+    .reveal h1 { font-size: 2.4em; }
+    .reveal h2 { font-size: 1.8em; }
+    .reveal h3 { font-size: 1.3em; color: var(--accent2); }
+    .reveal p, .reveal li { font-size: 0.85em; line-height: 1.5; }
+    .reveal .title-slide h1 { font-size: 2.8em; text-align: center; }
+    .reveal .title-slide p { text-align: center; font-size: 1.1em; color: #aaa; }
+    .reveal .center-text { text-align: center; }
+    .reveal .big-quote {
+      font-size: 1.5em;
+      font-style: italic;
+      color: var(--accent);
+      text-align: center;
+      padding: 0.5em 1em;
+      border-left: 4px solid var(--accent2);
+      background: rgba(255,140,0,0.08);
+      border-radius: 8px;
+    }
+    .reveal .stat-box {
+      display: inline-block;
+      background: rgba(80,230,255,0.1);
+      border: 1px solid var(--accent);
+      border-radius: 12px;
+      padding: 1em 1.5em;
+      margin: 0.5em;
+      text-align: center;
+      min-width: 200px;
+    }
+    .reveal .stat-box .number { font-size: 2.2em; font-weight: 700; color: var(--accent); }
+    .reveal .stat-box .label { font-size: 0.75em; color: #ccc; margin-top: 0.3em; }
+    .reveal .game-prompt {
+      font-size: 1.6em;
+      text-align: center;
+      padding: 0.8em 1em;
+      background: linear-gradient(135deg, rgba(80,230,255,0.15), rgba(255,140,0,0.15));
+      border-radius: 16px;
+      border: 2px solid var(--accent);
+      margin: 0.5em auto;
+      max-width: 90%;
+    }
+    .reveal .game-prompt .blank { color: var(--accent2); font-weight: 700; }
+    .reveal .scoring-grid {
+      display: flex;
+      justify-content: center;
+      gap: 1em;
+      flex-wrap: wrap;
+      margin-top: 0.5em;
+    }
+    .reveal .score-card {
+      background: rgba(80,230,255,0.08);
+      border: 1px solid rgba(80,230,255,0.3);
+      border-radius: 12px;
+      padding: 1em 1.5em;
+      text-align: center;
+      flex: 1;
+      min-width: 160px;
+    }
+    .reveal .score-card h3 { margin: 0 0 0.3em 0; font-size: 1.1em; }
+    .reveal .score-card p { margin: 0; font-size: 0.8em; color: #aaa; }
+    .reveal .score-card .pts { font-size: 1.6em; color: var(--accent); font-weight: 700; }
+    .reveal .research-card {
+      background: rgba(255,140,0,0.08);
+      border-left: 4px solid var(--accent2);
+      border-radius: 0 8px 8px 0;
+      padding: 0.7em 1.2em;
+      margin: 0.4em 0;
+    }
+    .reveal .research-card .finding { font-size: 0.85em; font-weight: 600; color: #fff; }
+    .reveal .research-card .cite { font-size: 0.65em; color: #999; margin-top: 0.2em; }
+    .reveal .flow-step {
+      display: inline-block;
+      background: rgba(80,230,255,0.12);
+      border-radius: 10px;
+      padding: 0.6em 1em;
+      margin: 0.3em;
+      font-size: 0.8em;
+      border: 1px solid rgba(80,230,255,0.25);
+    }
+    .reveal .flow-arrow { color: var(--accent2); font-size: 1.4em; vertical-align: middle; margin: 0 0.2em; }
+    .reveal .section-label {
+      font-size: 0.7em;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--accent2);
+      margin-bottom: 0.2em;
+    }
+    .reveal .demo-banner {
+      font-size: 2.2em;
+      text-align: center;
+      padding: 0.8em;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 800;
+    }
+    .reveal table { font-size: 0.75em; margin: 0 auto; }
+    .reveal table th { background: rgba(80,230,255,0.15); color: var(--accent); }
+    .reveal table td, .reveal table th { padding: 0.5em 0.8em; border: 1px solid rgba(255,255,255,0.1); }
+    .reveal ul { list-style: none; padding-left: 0; }
+    .reveal ul li::before { content: "▸ "; color: var(--accent2); font-weight: bold; }
+    .reveal .fragment.highlight-current-blue.current-fragment { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ============ TITLE ============ -->
+      <section class="title-slide" data-background-gradient="linear-gradient(135deg, #0a0a2e, #1a0a2e)">
+        <p class="section-label">Introducing</p>
+        <h1>You Know ____<br/>Is a Lot Like ____</h1>
+        <p style="margin-top:1em;">A game that makes technical depth visible,<br/>shareable, and fun.</p>
+      </section>
+
+      <!-- ============ SECTION 1: THE SITUATION ============ -->
+      <section>
+        <section data-background-gradient="linear-gradient(135deg, #0a0a2e, #0a1a2e)">
+          <p class="section-label">Section 1</p>
+          <h1 style="text-align:center;">The Situation</h1>
+          <p class="center-text" style="color:#aaa; font-size:1em;">A story in three acts.</p>
+        </section>
+
+        <!-- STORY SLIDE 1 -->
+        <section>
+          <h2>Act 1: The Brilliant CSA</h2>
+          <p style="font-size:1.05em; line-height:1.6;">
+            Meet our CSA. She's spent three weeks designing a multi-region landing zone
+            with private endpoints, managed identity, and a governance model
+            that would make a compliance officer weep with joy.
+          </p>
+          <p class="fragment" style="font-size:1.05em; line-height:1.6; margin-top:0.8em;">
+            She presents it to the customer's VP of Engineering.
+          </p>
+          <p class="fragment" style="font-size:1.05em; line-height:1.6; margin-top:0.8em;">
+            Twelve minutes in, the VP's eyes glaze over.
+          </p>
+          <p class="fragment" style="font-size:1.3em; margin-top:1em; color:var(--accent2); font-weight:600; text-align:center;">
+            "So… is this like building a house?"
+          </p>
+        </section>
+
+        <!-- STORY SLIDE 2 -->
+        <section>
+          <h2>Act 2: The Team Call</h2>
+          <p style="font-size:1.05em; line-height:1.6;">
+            Monday standup. Eight CSAs on camera. One shares a war story
+            about debugging a Fabric lakehouse mirroring issue that took four days.
+          </p>
+          <p class="fragment" style="font-size:1.05em; line-height:1.6; margin-top:0.8em;">
+            Three teammates nod knowingly. The other four check Outlook.
+          </p>
+          <p class="fragment" style="font-size:1.05em; line-height:1.6; margin-top:0.8em;">
+            Not because they don't care — because the story was told
+            in a language only half the room speaks fluently.
+          </p>
+          <p class="fragment" style="font-size:1.3em; margin-top:1em; color:var(--accent2); font-weight:600; text-align:center;">
+            Deep expertise. Shallow connection.
+          </p>
+        </section>
+
+        <!-- STORY SLIDE 3 -->
+        <section>
+          <h2>Act 3: The Offsite Icebreaker</h2>
+          <p style="font-size:1.05em; line-height:1.6;">
+            Someone suggests "two truths and a lie." Again.
+          </p>
+          <p class="fragment" style="font-size:1.05em; line-height:1.6; margin-top:0.8em;">
+            It has nothing to do with the work. It doesn't make anyone
+            better at their job. But hey — at least it's awkward for everyone equally.
+          </p>
+          <p class="fragment" style="font-size:1.3em; margin-top:1.2em; color:var(--accent); font-weight:600; text-align:center;">
+            What if the team activity actually used<br/>the thing CSAs are best at?
+          </p>
+        </section>
+
+        <!-- THE PATTERN -->
+        <section>
+          <h2>The Pattern</h2>
+          <p style="font-size:1.1em; text-align:center; margin-bottom:1em;">Three scenes, one problem:</p>
+          <div style="display:flex; justify-content:center; gap:1em; flex-wrap:wrap;">
+            <div class="stat-box" style="flex:1; min-width:200px;">
+              <div class="number" style="font-size:1.4em;">🧠</div>
+              <div class="label" style="font-size:0.85em;">CSAs have<br/><strong style="color:var(--accent);">massive depth</strong></div>
+            </div>
+            <div class="stat-box" style="flex:1; min-width:200px;">
+              <div class="number" style="font-size:1.4em;">🔇</div>
+              <div class="label" style="font-size:0.85em;">But rarely practice<br/><strong style="color:var(--accent);">translating it</strong></div>
+            </div>
+            <div class="stat-box" style="flex:1; min-width:200px;">
+              <div class="number" style="font-size:1.4em;">🧊</div>
+              <div class="label" style="font-size:0.85em;">And team activities<br/><strong style="color:var(--accent);">ignore the depth</strong></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- RESEARCH: WHY THIS HAPPENS -->
+        <section>
+          <h2>Why This Happens — The Research</h2>
+          <div class="research-card">
+            <div class="finding">The Curse of Knowledge: once you understand something deeply, you lose the ability to imagine not understanding it — making it systematically harder to explain.</div>
+            <div class="cite">Camerer, Loewenstein & Weber (1989). Journal of Political Economy.</div>
+          </div>
+          <div class="research-card fragment" style="margin-top:0.6em;">
+            <div class="finding">The Illusion of Explanatory Depth: people consistently overestimate how well they can explain the systems they work with — until they're asked to do it out loud.</div>
+            <div class="cite">Rozenblit & Keil (2002). Cognitive Science.</div>
+          </div>
+          <div class="research-card fragment" style="margin-top:0.6em;">
+            <div class="finding">Expert Blind Spot: domain experts routinely skip steps and use jargon they no longer notice, creating communication failures with non-experts.</div>
+            <div class="cite">Nathan & Petrosino (2003). Journal of the Learning Sciences.</div>
+          </div>
+        </section>
+
+        <!-- RESEARCH: WHAT DOESN'T WORK -->
+        <section>
+          <h2>What Doesn't Fix It</h2>
+          <ul>
+            <li class="fragment"><strong style="color:var(--accent2);">More slide decks</strong> — passive review doesn't build communication skill</li>
+            <li class="fragment"><strong style="color:var(--accent2);">Generic icebreakers</strong> — fun, but don't exercise technical thinking</li>
+            <li class="fragment"><strong style="color:var(--accent2);">Trivia nights</strong> — reward memorization, punish newcomers</li>
+            <li class="fragment"><strong style="color:var(--accent2);">Presentation practice</strong> — useful, but high-stakes and time-intensive</li>
+          </ul>
+          <p class="fragment" style="margin-top:1.2em; font-size:1.1em; color:var(--accent); font-weight:600; text-align:center;">
+            You need something that is low-stakes, high-frequency,<br/>and rewards real technical understanding.
+          </p>
+        </section>
+
+        <!-- BRIDGE -->
+        <section data-background-gradient="linear-gradient(135deg, #0a0a2e, #0a1a2e)">
+          <div class="big-quote">
+            What if one game could exercise deep knowledge,<br/>
+            customer-ready communication, team connection,<br/>
+            and creative thinking — all at once?
+          </div>
+        </section>
+      </section>
+
+      <!-- ============ SECTION 2: THE GAME ============ -->
+      <section>
+        <section data-background-gradient="linear-gradient(135deg, #0a1a0a, #0a1a2e)">
+          <p class="section-label">Section 2</p>
+          <h1 style="text-align:center;">The Game</h1>
+          <p class="center-text" style="color:#aaa; font-size:1em;">How it works, how it's played, how it's scored.</p>
+        </section>
+
+        <section>
+          <h2>The Format</h2>
+          <div class="game-prompt">
+            "You know <span class="blank">[technical thing]</span><br/>
+            is a lot like <span class="blank">[everyday thing]</span>."
+          </div>
+          <p class="center-text" style="margin-top:1em;">
+            Then you have to explain why.
+          </p>
+        </section>
+
+        <section>
+          <h2>Example</h2>
+          <div class="game-prompt" style="font-size:1.3em;">
+            "You know <span class="blank">designing a landing zone</span><br/>
+            is a lot like <span class="blank">hosting Thanksgiving dinner</span>."
+          </div>
+          <p class="fragment" style="margin-top:1em; font-style:italic; text-align:center; color:#ccc;">
+            "Both start with a fight about the layout, involve way too many stakeholders who all think
+            they're in charge, and if you skip the planning, someone ends up at the kids' table
+            running production workloads."
+          </p>
+        </section>
+
+        <section>
+          <h2>How a Round Works</h2>
+          <div class="center-text" style="margin-top:1em;">
+            <span class="flow-step">🎲 Draw two prompts</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">📖 Read it aloud</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">🤔 30s to think</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">🎤 60–90s to explain</span>
+            <span class="flow-arrow">→</span>
+            <span class="flow-step">⭐ Room scores</span>
+          </div>
+        </section>
+
+        <section>
+          <h2>Scoring</h2>
+          <div class="scoring-grid">
+            <div class="score-card">
+              <h3>Accuracy</h3>
+              <p>Does the analogy<br/>actually make sense?</p>
+              <div class="pts">1–5</div>
+            </div>
+            <div class="score-card">
+              <h3>Creativity</h3>
+              <p>Was the connection<br/>unexpected and clever?</p>
+              <div class="pts">1–5</div>
+            </div>
+            <div class="score-card">
+              <h3>Delivery</h3>
+              <p>Was it clear, funny,<br/>or memorable?</p>
+              <div class="pts">1–5</div>
+            </div>
+          </div>
+          <p class="center-text fragment" style="margin-top:1em; font-size:1.1em;">
+            Max <strong style="color:var(--accent);">15 points</strong> per round
+          </p>
+        </section>
+
+        <section>
+          <h2>Game Modes</h2>
+          <table>
+            <thead>
+              <tr><th>Mode</th><th>Format</th><th>Best For</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Standard</strong></td><td>One player presents per round, 5 rounds</td><td>Team meetings</td></tr>
+              <tr><td><strong>Battle</strong></td><td>Two players get same prompt, room votes</td><td>Offsites</td></tr>
+              <tr><td><strong>Team</strong></td><td>Small teams prep together, one delivers</td><td>Workshops</td></tr>
+              <tr><td><strong>Lightning</strong></td><td>15s think, 30s explain</td><td>Energy bursts</td></tr>
+              <tr><td><strong>Customer-Friendly</strong></td><td>No acronyms allowed, bonus for exec clarity</td><td>Comms training</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section>
+          <h2>What Makes a Good Answer</h2>
+          <ul>
+            <li class="fragment">Explains the process in plain language</li>
+            <li class="fragment">Maps steps or roles from one side to the other</li>
+            <li class="fragment">Surfaces risks, tradeoffs, or coordination points</li>
+            <li class="fragment">Lands on a memorable image people can repeat later</li>
+          </ul>
+        </section>
+      </section>
+
+      <!-- ============ SECTION 3: THE WHY ============ -->
+      <section>
+        <section data-background-gradient="linear-gradient(135deg, #1a0a0a, #1a0a2e)">
+          <p class="section-label">Section 3</p>
+          <h1 style="text-align:center;">Why It Works</h1>
+          <p class="center-text" style="color:#aaa; font-size:1em;">Six research-backed reasons this is more than a party trick.</p>
+        </section>
+
+        <section>
+          <h2>1. Analogical Reasoning</h2>
+          <p>The game forces <strong>structure-mapping</strong> — identifying the relational structure of a concept and mapping it onto a new domain. This is how experts actually solve novel problems.</p>
+          <div class="research-card fragment">
+            <div class="finding">Analogy was the single most common reasoning mechanism in real scientific breakthroughs — more than deduction or hypothesis testing.</div>
+            <div class="cite">Dunbar, K. (1997). How Scientists Think. Creative Thought.</div>
+          </div>
+          <div class="research-card fragment">
+            <div class="finding">People who practice analogical reasoning develop stronger mental models and transfer knowledge more effectively across problem types.</div>
+            <div class="cite">Gentner, Holyoak & Kokinov (2001). The Analogical Mind. MIT Press.</div>
+          </div>
+        </section>
+
+        <section>
+          <h2>2. Plain-Language Communication</h2>
+          <p>The game structurally forces you to explain technical concepts through non-technical metaphors — directly countering the <strong>curse of knowledge</strong>.</p>
+          <div class="research-card fragment">
+            <div class="finding">People consistently overestimate how well they understand complex systems — until forced to explain them.</div>
+            <div class="cite">Rozenblit & Keil (2002). Cognitive Science.</div>
+          </div>
+          <div class="research-card fragment">
+            <div class="finding">The most memorable, persuasive explanations use concrete analogies and unexpected comparisons.</div>
+            <div class="cite">Heath & Heath (2007). Made to Stick. Random House.</div>
+          </div>
+        </section>
+
+        <section>
+          <h2>3. Psychological Safety</h2>
+          <p>Everyone takes the same risk: making a weird comparison in front of peers. The humor defuses status differences. The structure makes everyone equally vulnerable.</p>
+          <div class="research-card fragment">
+            <div class="finding">Psychological safety — the belief you won't be punished for taking interpersonal risks — was the #1 predictor of high-performing teams.</div>
+            <div class="cite">Google Project Aristotle (2015); Edmondson (1999, 2019).</div>
+          </div>
+          <div class="research-card fragment">
+            <div class="finding">Short improv exercises increased willingness to contribute ideas and reduced fear of judgment — effects that persisted after.</div>
+            <div class="cite">Dunlop et al. (2017).</div>
+          </div>
+        </section>
+
+        <section>
+          <h2>4. Retrieval Practice</h2>
+          <p>When you draw "tuning cost optimization" and have to explain it well enough to compare it to "organizing a garage sale," you're doing <strong>forced retrieval</strong> of real technical knowledge.</p>
+          <div class="research-card fragment">
+            <div class="finding">Retrieval practice produced 50% more long-term retention than concept mapping or elaborative study.</div>
+            <div class="cite">Karpicke & Blunt (2011). Science, 331(6018), 772–775.</div>
+          </div>
+          <p class="fragment" style="color:var(--accent2); font-weight:600; margin-top:0.8em;">
+            Players don't feel like they're studying — but they are.
+          </p>
+        </section>
+
+        <section>
+          <h2>5. Humor & Social Bonding</h2>
+          <p>Content-relevant humor increases attention, reduces anxiety, and improves retention. Shared laughter creates team culture.</p>
+          <div class="research-card fragment">
+            <div class="finding">Shared laughter triggers endorphin release and increases feelings of group affiliation.</div>
+            <div class="cite">Dunbar et al. (2012). Proceedings of the Royal Society B.</div>
+          </div>
+          <div class="research-card fragment">
+            <div class="finding">Humor relevant to content enhances learning without distracting from it.</div>
+            <div class="cite">Banas, Dunbar, Rodriguez & Liu (2011). Communication Education.</div>
+          </div>
+        </section>
+
+        <section>
+          <h2>6. Cross-Domain Creative Thinking</h2>
+          <p>Breakthrough ideas come from connecting knowledge across domains. The game is a direct exercise in <strong>remote association</strong>.</p>
+          <div class="research-card fragment">
+            <div class="finding">Cognitive diversity — drawing on varied mental models — is a stronger predictor of team innovation than demographic diversity alone.</div>
+            <div class="cite">Kaplan & Vakili (2015). Academy of Management Review.</div>
+          </div>
+          <div class="research-card fragment">
+            <div class="finding">The ability to connect distant concepts is a trainable skill, and structured exercises are effective training.</div>
+            <div class="cite">Wan & Chiu (2002). Journal of Creative Behavior.</div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Compared To Alternatives</h2>
+          <table>
+            <thead>
+              <tr><th>Dimension</th><th>Trivia Night</th><th>Icebreakers</th><th>You Know</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Tests real knowledge</td><td>✓</td><td>✗</td><td style="color:var(--accent); font-weight:700;">✓</td></tr>
+              <tr><td>Builds communication</td><td>✗</td><td>~</td><td style="color:var(--accent); font-weight:700;">✓</td></tr>
+              <tr><td>Creates shared humor</td><td>~</td><td>✗</td><td style="color:var(--accent); font-weight:700;">✓</td></tr>
+              <tr><td>Rewards creativity</td><td>✗</td><td>✗</td><td style="color:var(--accent); font-weight:700;">✓</td></tr>
+              <tr><td>Works for new + tenured</td><td>✗</td><td>✓</td><td style="color:var(--accent); font-weight:700;">✓</td></tr>
+              <tr><td>Scales to remote</td><td>~</td><td>~</td><td style="color:var(--accent); font-weight:700;">✓</td></tr>
+            </tbody>
+          </table>
+        </section>
+      </section>
+
+      <!-- ============ SECTION 4: THE DEMO ============ -->
+      <section>
+        <section data-background-gradient="linear-gradient(135deg, #0a0a1a, #2a0a1a)">
+          <p class="section-label">Section 4</p>
+          <h1 style="text-align:center;">Live Demo</h1>
+          <p class="center-text" style="color:#aaa; font-size:1em;">Let's play a round.</p>
+        </section>
+
+        <section>
+          <h2>How This App Works</h2>
+          <ul>
+            <li class="fragment"><strong style="color:var(--accent);">Azure OpenAI</strong> generates unique prompt pairs — no repeats, always fresh</li>
+            <li class="fragment"><strong style="color:var(--accent);">Azure AI Speech</strong> reads the prompt aloud in an excited announcer voice</li>
+            <li class="fragment"><strong style="color:var(--accent);">Rationale hint</strong> stays hidden — gives the speaker an angle if they're stuck</li>
+            <li class="fragment">Two buttons: <strong>Spin Pair</strong> and <strong>Say It</strong></li>
+          </ul>
+        </section>
+
+        <section>
+          <div class="demo-banner">🎰 DEMO TIME 🎰</div>
+          <p class="center-text" style="font-size:1.1em; margin-top:1em;">
+            Switch to the app →<br/>
+            <span style="color:#aaa; font-size:0.8em;">http://localhost:5173</span>
+          </p>
+        </section>
+
+        <section>
+          <h2>Let's Play a Round</h2>
+          <div class="center-text" style="margin-top:1em;">
+            <span class="flow-step">1. Spin a prompt pair</span><br/><br/>
+            <span class="flow-step">2. Hit "Say It" — hear the announcer</span><br/><br/>
+            <span class="flow-step">3. A volunteer explains the analogy</span><br/><br/>
+            <span class="flow-step">4. Everyone scores 1–5 × 3 categories</span><br/><br/>
+            <span class="flow-step">5. Repeat — can you beat the first player?</span>
+          </div>
+        </section>
+
+        <section>
+          <h2>Scoring Reminder</h2>
+          <div class="scoring-grid">
+            <div class="score-card">
+              <h3>Accuracy</h3>
+              <div class="pts">/ 5</div>
+            </div>
+            <div class="score-card">
+              <h3>Creativity</h3>
+              <div class="pts">/ 5</div>
+            </div>
+            <div class="score-card">
+              <h3>Delivery</h3>
+              <div class="pts">/ 5</div>
+            </div>
+          </div>
+          <p class="center-text" style="margin-top:1em; font-size:1.1em; color:var(--accent2); font-weight:600;">
+            Drop your scores in the chat!
+          </p>
+        </section>
+
+        <section>
+          <h2>🏆 Round Results</h2>
+          <p class="center-text" style="font-size:1.1em; margin-top:1em;">
+            Tally up the scores...<br/><br/>
+          </p>
+          <div class="game-prompt" style="font-size:1.2em;">
+            Who had the best analogy?
+          </div>
+        </section>
+      </section>
+
+      <!-- ============ CLOSING ============ -->
+      <section>
+        <section data-background-gradient="linear-gradient(135deg, #0a0a2e, #1a0a2e)">
+          <h2>When To Use This</h2>
+          <ul>
+            <li><strong style="color:var(--accent);">Offsites</strong> — warm-up or energy reset between sessions</li>
+            <li><strong style="color:var(--accent);">Community calls</strong> — 10-min round keeps the call alive</li>
+            <li><strong style="color:var(--accent);">New hire onboarding</strong> — learn the vocabulary by hearing peers explain it</li>
+            <li><strong style="color:var(--accent);">Workshop warm-ups</strong> — primes creative, non-judgmental thinking</li>
+            <li><strong style="color:var(--accent);">Friday team meetings</strong> — end the week with laughter, not status</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 style="text-align:center;">The Short Version</h2>
+          <div class="big-quote" style="margin-top:1em;">
+            This game sits at the intersection of analogical reasoning, retrieval practice, plain-language communication, psychological safety, social bonding, and creative thinking.<br/><br/>
+            Each mechanism is individually well-researched.<br/>
+            Combined in a 90-second game round, they make this one of the highest-value, lowest-effort team activities a CSA team can run.
+          </div>
+        </section>
+
+        <section class="title-slide" data-background-gradient="linear-gradient(135deg, #0a0a2e, #1a0a2e)">
+          <h1 style="font-size:2em;">You Know ____<br/>Is a Lot Like ____</h1>
+          <p style="margin-top:1em; font-size:1.1em; color:var(--accent2);">
+            Let's bring this to your team.
+          </p>
+          <p style="color:#666; font-size:0.7em; margin-top:2em;">
+            Built with Azure OpenAI · Azure AI Speech · FastAPI · React
+          </p>
+        </section>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      transition: 'slide',
+      backgroundTransition: 'fade',
+      center: true,
+      width: 1280,
+      height: 720,
+      margin: 0.08,
+      controlsTutorial: false,
+    });
+  </script>
+</body>
+</html>

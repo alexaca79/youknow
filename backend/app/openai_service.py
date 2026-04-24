@@ -11,8 +11,32 @@ from .models import PromptResponse
 
 _FENCE_RE = re.compile(r"```(?:json)?\s*([\s\S]*?)```", re.IGNORECASE)
 _PROMPTS_DIR = Path(__file__).resolve().parent.parent.parent / "prompts"
-_SYSTEM_PROMPT = (_PROMPTS_DIR / "system.md").read_text(encoding="utf-8")
 _USER_PROMPT_TEMPLATE = (_PROMPTS_DIR / "user.md").read_text(encoding="utf-8")
+_SYSTEM_PROMPTS: dict[str, str] = {
+    "data-ai": (_PROMPTS_DIR / "system-data-ai.md").read_text(encoding="utf-8"),
+    "apps-ai": (_PROMPTS_DIR / "system-apps-ai.md").read_text(encoding="utf-8"),
+    "infra": (_PROMPTS_DIR / "system-infra.md").read_text(encoding="utf-8"),
+}
+_DIFFICULTY_INSTRUCTIONS: dict[str, str] = {
+    "normal": (
+        "\n## Difficulty: Normal\n"
+        "- everydayThing should be a relatable, recognizable everyday situation that most people understand.\n"
+        "- The analogy should be fun but the connection between technicalThing and everydayThing should be reasonably intuitive to explain.\n"
+    ),
+    "hard": (
+        "\n## Difficulty: Hard\n"
+        "- everydayThing should be an unusual, niche, or surprising everyday situation that makes the analogy much harder to explain.\n"
+        "- The connection should still exist but require real creativity and lateral thinking to articulate.\n"
+        "- The speaker will need to dig deep to find the shared pattern.\n"
+    ),
+    "non-sequitur": (
+        "\n## Difficulty: Non Sequitur\n"
+        "- everydayThing should be completely random, absurd, and seemingly unrelated to technicalThing.\n"
+        "- There is no obvious connection — the speaker must invent one on the spot.\n"
+        "- rationaleHint should still offer one possible angle, but it can be a stretch.\n"
+        "- This is chaos mode — make it wild, weird, and hilarious.\n"
+    ),
+}
 
 
 class PromptGenerator:
@@ -25,7 +49,7 @@ class PromptGenerator:
     def is_configured(self) -> bool:
         return self._client is not None
 
-    def generate_prompt(self, recent_prompts: list[str]) -> PromptResponse:
+    def generate_prompt(self, recent_prompts: list[str], specialty: str = "data-ai", difficulty: str = "normal") -> PromptResponse:
         if self._client is None:
             raise RuntimeError(
                 "Azure OpenAI is not configured. Set AZURE_OPENAI_API_KEY or "
@@ -38,7 +62,7 @@ class PromptGenerator:
 
         last_error: Exception | None = None
         for _ in range(4):
-            raw_payload = self._request_prompt(avoid_prompts)
+            raw_payload = self._request_prompt(avoid_prompts, specialty, difficulty)
             try:
                 prompt = PromptResponse(**json.loads(raw_payload))
             except Exception as exc:
@@ -57,14 +81,16 @@ class PromptGenerator:
 
         raise RuntimeError("Unable to generate a unique prompt after several attempts.")
 
-    def _request_prompt(self, avoid_prompts: list[str]) -> str:
+    def _request_prompt(self, avoid_prompts: list[str], specialty: str, difficulty: str) -> str:
         avoid_text = "\n".join(f"- {prompt}" for prompt in avoid_prompts[-25:]) or "- none yet"
         user_prompt = _USER_PROMPT_TEMPLATE.replace("{avoid_list}", avoid_text)
+        system_prompt = _SYSTEM_PROMPTS.get(specialty, _SYSTEM_PROMPTS["data-ai"])
+        system_prompt += _DIFFICULTY_INSTRUCTIONS.get(difficulty, _DIFFICULTY_INSTRUCTIONS["normal"])
         response = self._client.chat.completions.create(
             model=self._settings.openai_model,
             temperature=1.2,
             messages=[
-                {"role": "system", "content": _SYSTEM_PROMPT},
+                {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt},
             ],
         )

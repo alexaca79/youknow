@@ -2,7 +2,7 @@ import logging
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import Response
+from fastapi.responses import Response, StreamingResponse
 
 from .config import get_settings
 from .models import PromptRequest, PromptResponse, SpeechRequest
@@ -37,7 +37,9 @@ def health() -> dict[str, str | bool]:
 @app.post("/api/prompts", response_model=PromptResponse)
 def create_prompt(request: PromptRequest) -> PromptResponse:
     try:
-        return prompt_generator.generate_prompt(request.recent_prompts)
+        return prompt_generator.generate_prompt(
+            request.recent_prompts, request.specialty.value, request.difficulty.value
+        )
     except RuntimeError as exc:
         detail = str(exc)
         status_code = 503 if "not configured" in detail.lower() else 502
@@ -64,5 +66,50 @@ def create_speech(request: SpeechRequest) -> Response:
     return Response(
         content=audio_bytes,
         media_type="audio/wav",
+        headers={"Cache-Control": "no-store"},
+    )
+
+
+@app.post("/api/spin-and-speak")
+def spin_and_speak(request: PromptRequest) -> Response:
+    """Generate a prompt and synthesize speech in one round-trip.
+
+    Returns multipart: first part is the JSON prompt, second is the WAV audio.
+    The boundary is 'spin-boundary' so the client can split easily.
+    """
+    try:
+        prompt_data = prompt_generator.generate_prompt(
+            request.recent_prompts, request.specialty.value
+        )
+    except RuntimeError as exc:
+        detail = str(exc)
+        status_code = 503 if "not configured" in detail.lower() else 502
+        raise HTTPException(status_code=status_code, detail=detail) from exc
+
+    prompt_json = prompt_data.model_dump_json().encode()
+
+    if not speech_service.is_configured:
+        return Response(content=prompt_json, media_type="application/json")
+
+    try:
+        audio_bytes = speech_service.synthesize_prompt_audio(prompt_data.fullPrompt)
+    except RuntimeError:
+        logger.warning("Speech failed during spin-and-speak, returning prompt only")
+        return Response(content=prompt_json, media_type="application/json")
+
+    boundary = b"spin-boundary"
+    body = (
+        b"--" + boundary + b"\r\n"
+        b"Content-Type: application/json\r\n\r\n"
+        + prompt_json + b"\r\n"
+        b"--" + boundary + b"\r\n"
+        b"Content-Type: audio/wav\r\n\r\n"
+        + audio_bytes + b"\r\n"
+        b"--" + boundary + b"--\r\n"
+    )
+
+    return Response(
+        content=body,
+        media_type='multipart/mixed; boundary="spin-boundary"',
         headers={"Cache-Control": "no-store"},
     )

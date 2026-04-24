@@ -204,6 +204,19 @@ h3 {
   gap: 0.6rem;
 }
 
+.specialty-select {
+  margin-top: 0.4rem;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.8);
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+}
+
 .panel-header.compact {
   margin-bottom: 1rem;
 }
@@ -330,6 +343,63 @@ h3 {
   margin: 0;
   color: rgba(31, 36, 48, 0.72);
   line-height: 1.4;
+}
+
+.explain-instruction {
+  margin: 0;
+  padding: 0.8rem 1rem;
+  border-radius: 14px;
+  background: rgba(12, 139, 139, 0.1);
+  border-left: 4px solid var(--teal);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--ink);
+  min-height: 1.2em;
+}
+
+.prompt-actions-bar {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.hint-drawer {
+  border-radius: 14px;
+  background: rgba(243, 187, 63, 0.12);
+  border: 1px solid rgba(243, 187, 63, 0.3);
+}
+
+.hint-toggle {
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hint-toggle::before {
+  content: '\u25B6';
+  font-size: 0.7rem;
+  transition: transform 200ms ease;
+}
+
+.hint-drawer[open] .hint-toggle::before {
+  transform: rotate(90deg);
+}
+
+.hint-toggle::-webkit-details-marker {
+  display: none;
+}
+
+.hint-content {
+  margin: 0;
+  padding: 0 1rem 0.8rem;
+  line-height: 1.6;
+  color: rgba(31, 36, 48, 0.78);
 }
 
 .error-banner {
