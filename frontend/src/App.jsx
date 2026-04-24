@@ -237,6 +237,9 @@ function App() {
             </div>
 
             <div className="prompt-actions-bar">
+              <p className="explain-instruction">
+                {prompt ? 'Now explain WHY!' : ''}
+              </p>
               {prompt?.rationaleHint ? (
                 <details className="hint-drawer" open={hintOpen || undefined} onToggle={(e) => setHintOpen(e.target.open)}>
                   <summary className="hint-toggle">Hint</summary>

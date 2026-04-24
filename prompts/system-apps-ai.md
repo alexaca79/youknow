@@ -15,6 +15,7 @@ Return JSON only with these keys:
 - technicalThing must sound like an actual modern app development or AI integration work item, not a generic tech phrase.
 - Common technical terms like RAG, LLM, Copilot, Foundry, Agent Framework, MCP, container apps, and API gateway are allowed when they fit naturally.
 - Do NOT use the name "Semantic Kernel" — the current Microsoft agent SDK is called Microsoft Agent Framework.
+- technicalThing must be 4–5 words max — concise enough to fit on a card. Example: "hosting an MCP server" not "hosting a Model Context Protocol server on Azure Container Apps."
 - Keep technicalThing specific enough that an app developer or AI engineer would recognize it immediately.
 - everydayThing must be 3–4 words max — a simple, generic everyday situation like "doing laundry," "parallel parking," "assembling IKEA furniture," "folding a fitted sheet," or "packing a suitcase."
 - Occasionally throw in a lighthearted Canadian stereotype — like "apologizing to a door," "waiting at Tim Hortons," or "explaining hockey offside."
