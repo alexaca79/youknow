@@ -1,6 +1,7 @@
 import json
 import re
 from collections import deque
+from pathlib import Path
 from urllib.parse import urlparse
 
 from openai import OpenAI
@@ -9,28 +10,9 @@ from .config import Settings
 from .models import PromptResponse
 
 _FENCE_RE = re.compile(r"```(?:json)?\s*([\s\S]*?)```", re.IGNORECASE)
-
-SYSTEM_PROMPT = """You generate unique prompt pairs for a live game called 'You Know ____ Is a Lot Like ____'.
-Return JSON only with these keys:
-- technicalThing
-- everydayThing
-- fullPrompt
-- rationaleHint
-
-Rules:
-- technicalThing must be a real Data and AI CSA concept, architecture topic, engineering task, governance decision, networking pattern, security control, or operating model that a Microsoft CSA would actually discuss with customers.
-- technicalThing must sound like an actual modern Azure data or AI work item, not a generic tech phrase.
-- Favor concrete topics such as LLM apps, RAG design, Azure AI Foundry, model routing, prompt evaluation, agent orchestration, embeddings, vector search, Fabric, lakehouses, semantic models, private endpoints, managed identity, VNets, data governance, or responsible AI controls.
-- Common technical terms like LLM, RAG, VNet, private endpoint, Fabric, Foundry, copilots, fine-tuning, and embeddings are allowed when they fit naturally.
-- Keep technicalThing specific enough that a data or AI practitioner would recognize it immediately.
-- everydayThing must be a random everyday role, event, or situation.
-- Keep both phrases concise, vivid, safe for work, easy to say out loud, and fun enough for a room to laugh at.
-- fullPrompt must exactly follow this format: You know {technicalThing} is a lot like {everydayThing}.
-- rationaleHint must be one sentence that gives the speaker a strong angle for explaining the analogy by naming the real tension, tradeoff, or pattern shared by both sides.
-- Aim for playful, surprising, game-show energy rather than dry consulting language.
-- Avoid fake tech phrases, vague abstractions, internal-only jargon, or anything offensive.
-- Avoid repeating or closely paraphrasing anything on the avoid list.
-"""
+_PROMPTS_DIR = Path(__file__).resolve().parent.parent.parent / "prompts"
+_SYSTEM_PROMPT = (_PROMPTS_DIR / "system.md").read_text(encoding="utf-8")
+_USER_PROMPT_TEMPLATE = (_PROMPTS_DIR / "user.md").read_text(encoding="utf-8")
 
 
 class PromptGenerator:
@@ -77,16 +59,12 @@ class PromptGenerator:
 
     def _request_prompt(self, avoid_prompts: list[str]) -> str:
         avoid_text = "\n".join(f"- {prompt}" for prompt in avoid_prompts[-25:]) or "- none yet"
-        user_prompt = (
-            "Generate one fresh game prompt pair.\n"
-            "Avoid these existing prompts and close variations:\n"
-            f"{avoid_text}"
-        )
+        user_prompt = _USER_PROMPT_TEMPLATE.replace("{avoid_list}", avoid_text)
         response = self._client.chat.completions.create(
             model=self._settings.openai_model,
             temperature=1.2,
             messages=[
-                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "system", "content": _SYSTEM_PROMPT},
                 {"role": "user", "content": user_prompt},
             ],
         )

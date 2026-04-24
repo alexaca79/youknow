@@ -14,7 +14,7 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices("OPENAI_BASE_URL", "AZURE_OPENAI_ENDPOINT"),
     )
     openai_model: str = Field(
-        default="gpt-5.4-nano-1",
+        default="gpt-5.4-nano",
         validation_alias=AliasChoices("AZURE_OPENAI_MODEL", "OPENAI_MODEL"),
     )
     frontend_origin: str = Field(default="http://localhost:5173", validation_alias="FRONTEND_ORIGIN")
