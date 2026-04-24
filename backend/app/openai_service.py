@@ -20,20 +20,21 @@ _SYSTEM_PROMPTS: dict[str, str] = {
 _DIFFICULTY_INSTRUCTIONS: dict[str, str] = {
     "normal": (
         "\n## Difficulty: Normal\n"
-        "- everydayThing should be a relatable, recognizable everyday situation that most people understand.\n"
-        "- The analogy should be fun but the connection between technicalThing and everydayThing should be reasonably intuitive to explain.\n"
+        "- everydayThing must be 3–4 words max — a simple, mundane, universally relatable situation like 'doing laundry' or 'parallel parking'.\n"
+        "- The analogy should be fun and the connection should be reasonably intuitive to explain.\n"
     ),
     "hard": (
         "\n## Difficulty: Hard\n"
-        "- everydayThing should be an unusual, niche, or surprising everyday situation that makes the analogy much harder to explain.\n"
+        "- everydayThing must be 3–4 words max but pick a situation that makes the analogy much harder to explain.\n"
         "- The connection should still exist but require real creativity and lateral thinking to articulate.\n"
         "- The speaker will need to dig deep to find the shared pattern.\n"
     ),
     "non-sequitur": (
         "\n## Difficulty: Non Sequitur\n"
-        "- everydayThing should be completely random, absurd, and seemingly unrelated to technicalThing.\n"
+        "- everydayThing must be 3–4 words max — a truly random, absurd everyday moment.\n"
+        "- Think situations like 'finding a lost sock' or 'apologizing to a mannequin'.\n"
         "- There is no obvious connection — the speaker must invent one on the spot.\n"
-        "- rationaleHint should still offer one possible angle, but it can be a stretch.\n"
+        "- rationaleHint should still offer one possible angle, but it can be a real stretch.\n"
         "- This is chaos mode — make it wild, weird, and hilarious.\n"
     ),
 }

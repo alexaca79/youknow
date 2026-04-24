@@ -382,8 +382,9 @@ h3 {
 }
 
 .hint-toggle::before {
-  content: '\u25B6';
-  font-size: 0.7rem;
+  content: '—';
+  font-size: 0.9rem;
+  font-weight: bold;
   transition: transform 200ms ease;
 }
 
