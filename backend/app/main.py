@@ -1,8 +1,10 @@
 import logging
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
+from fastapi.staticfiles import StaticFiles
 
 from .config import get_settings
 from .models import PromptRequest, PromptResponse, SpeechRequest
@@ -66,3 +68,9 @@ def create_speech(request: SpeechRequest) -> Response:
         media_type="audio/wav",
         headers={"Cache-Control": "no-store"},
     )
+
+
+# ── Serve frontend static files (must be last) ──
+static_dir = Path(__file__).resolve().parent.parent / "static"
+if static_dir.is_dir():
+    app.mount("/", StaticFiles(directory=static_dir, html=True), name="static")

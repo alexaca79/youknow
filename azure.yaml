@@ -1,0 +1,11 @@
+name: youknow-game
+metadata:
+  template: azd-init
+
+services:
+  backend:
+    project: .
+    language: python
+    host: containerapp
+    docker:
+      path: ./backend/Dockerfile
