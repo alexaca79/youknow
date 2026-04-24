@@ -171,8 +171,8 @@ function App() {
       <main className="app-frame">
         <section className="hero-panel panel">
           <div>
-            <p className="eyebrow">Live LLM-generated game prompts</p>
             <h1>You Know ____ Is a Lot Like ____</h1>
+            <p className="hero-rules">Now explain WHY these two things are alike — that's the whole game!</p>
           </div>
           <div className="hero-meta">
             <div className="meta-pill">
@@ -237,9 +237,6 @@ function App() {
             </div>
 
             <div className="prompt-actions-bar">
-              <p className="explain-instruction">
-                {prompt ? 'Now explain WHY these two things are alike — that\'s the whole game!' : ''}
-              </p>
               {prompt?.rationaleHint ? (
                 <details className="hint-drawer" open={hintOpen || undefined} onToggle={(e) => setHintOpen(e.target.open)}>
                   <summary className="hint-toggle">Hint</summary>
