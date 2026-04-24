@@ -12,11 +12,13 @@ from .models import PromptResponse
 _FENCE_RE = re.compile(r"```(?:json)?\s*([\s\S]*?)```", re.IGNORECASE)
 _PROMPTS_DIR = Path(__file__).resolve().parent.parent.parent / "prompts"
 _USER_PROMPT_TEMPLATE = (_PROMPTS_DIR / "user.md").read_text(encoding="utf-8")
-_SYSTEM_PROMPTS: dict[str, str] = {
-    "data-ai": (_PROMPTS_DIR / "system-data-ai.md").read_text(encoding="utf-8"),
-    "apps-ai": (_PROMPTS_DIR / "system-apps-ai.md").read_text(encoding="utf-8"),
-    "infra": (_PROMPTS_DIR / "system-infra.md").read_text(encoding="utf-8"),
-}
+
+def _load_system_prompts() -> dict[str, str]:
+    return {
+        "data-ai": (_PROMPTS_DIR / "system-data-ai.md").read_text(encoding="utf-8"),
+        "apps-ai": (_PROMPTS_DIR / "system-apps-ai.md").read_text(encoding="utf-8"),
+        "infra": (_PROMPTS_DIR / "system-infra.md").read_text(encoding="utf-8"),
+    }
 _DIFFICULTY_INSTRUCTIONS: dict[str, str] = {
     "normal": (
         "\n## Difficulty: Normal\n"
@@ -85,7 +87,8 @@ class PromptGenerator:
     def _request_prompt(self, avoid_prompts: list[str], specialty: str, difficulty: str) -> str:
         avoid_text = "\n".join(f"- {prompt}" for prompt in avoid_prompts[-25:]) or "- none yet"
         user_prompt = _USER_PROMPT_TEMPLATE.replace("{avoid_list}", avoid_text)
-        system_prompt = _SYSTEM_PROMPTS.get(specialty, _SYSTEM_PROMPTS["data-ai"])
+        prompts = _load_system_prompts()
+        system_prompt = prompts.get(specialty, prompts["data-ai"])
         system_prompt += _DIFFICULTY_INSTRUCTIONS.get(difficulty, _DIFFICULTY_INSTRUCTIONS["normal"])
         response = self._client.chat.completions.create(
             model=self._settings.openai_model,

@@ -355,14 +355,17 @@ h3 {
 
 .explain-instruction {
   margin: 0;
-  padding: 0.8rem 1rem;
+  padding: 1rem 1.2rem;
   border-radius: 14px;
-  background: rgba(12, 139, 139, 0.1);
-  border-left: 4px solid var(--teal);
-  font-weight: 600;
-  font-size: 1.05rem;
+  background: rgba(12, 139, 139, 0.12);
+  border-left: 5px solid var(--teal);
+  font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+  font-weight: 800;
+  font-size: 1.6rem;
   color: var(--ink);
   min-height: 1.2em;
+  text-align: center;
+  letter-spacing: 0.02em;
 }
 
 .prompt-actions-bar {
