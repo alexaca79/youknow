@@ -15,7 +15,7 @@ const SPECIALTIES = [
 const DIFFICULTIES = [
   { value: 'normal', label: 'Normal' },
   { value: 'hard', label: 'Hard' },
-  { value: 'non-sequitur', label: 'Non Sequitur' },
+  { value: 'non-sequitur', label: 'Maple Syrup Hard' },
 ];
 
 function apiUrl(path) {
