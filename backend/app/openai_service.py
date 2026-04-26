@@ -104,18 +104,25 @@ class PromptGenerator:
         return " ".join(value.lower().strip().split())
 
     @staticmethod
+    def _is_azure_endpoint(url: str) -> bool:
+        return any(
+            domain in url
+            for domain in (".openai.azure.com", ".cognitiveservices.azure.com", ".services.ai.azure.com")
+        )
+
+    @staticmethod
     def _can_configure(settings: Settings) -> bool:
         if settings.openai_api_key:
             return True
         base_url = settings.openai_base_url or ""
-        return ".openai.azure.com" in base_url
+        return PromptGenerator._is_azure_endpoint(base_url)
 
     @staticmethod
     def _create_client(settings: Settings) -> OpenAI:
         base_url = PromptGenerator._normalize_base_url(settings.openai_base_url)
         if settings.openai_api_key:
             api_key: str | object = settings.openai_api_key
-        elif base_url and ".openai.azure.com" in base_url:
+        elif base_url and PromptGenerator._is_azure_endpoint(base_url):
             from azure.identity import DefaultAzureCredential, get_bearer_token_provider
 
             api_key = get_bearer_token_provider(
@@ -140,7 +147,7 @@ class PromptGenerator:
         if not parsed.scheme or not parsed.netloc:
             return normalized
 
-        if parsed.netloc.endswith(".openai.azure.com") and not parsed.path.endswith("/openai/v1"):
+        if parsed.netloc and PromptGenerator._is_azure_endpoint(normalized) and not parsed.path.endswith("/openai/v1"):
             return f"{parsed.scheme}://{parsed.netloc}/openai/v1"
 
         return normalized
